@@ -1,5 +1,6 @@
 package page_objects;
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -55,6 +56,9 @@ public class OrderPage {
 
     // контейнер модалки
     private By orderModal = By.xpath(".//div[starts-with(@class,'Order_Modal')]");
+
+    // заголовок модалки
+    private By orderModalTextSuccess = By.xpath(".//div[@class='Order_ModalHeader__3FDaJ']");
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;
@@ -117,6 +121,8 @@ public class OrderPage {
     public void checkOrderSuccess() {
         new WebDriverWait(driver, 5)
                 .until(ExpectedConditions.visibilityOfElementLocated(orderModal));
+        String modalHeaderText = driver.findElement(orderModalTextSuccess).getText();
+        Assert.assertEquals("Ошибка при оформлении заказа", "Заказ оформлен", modalHeaderText);
     }
 
     public void checkOrderFlowIsSuccess(String name, String surname, boolean isBlack) {
